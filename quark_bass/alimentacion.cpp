@@ -27,6 +27,7 @@ int alimentacion_init(void){
     pinMode(LED_BAT_BAJA_IO_NUM, OUTPUT);
     //Led bateria cargando
     //Led bateria cargada
+    return 0;
 }
 
 /**
