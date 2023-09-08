@@ -10,13 +10,6 @@ typedef enum{
 }pwr_estado_t;
 
 /**
-* Inicializa las cosas necesarias para la monitorizacion de la alimentacion.
-* @return Nada
-*/
-int alimentacion_init(void);
-
-/**
 * Proceso de monitorizacion de la alimentacion.
-* @return 0.
 */
-int alimentacion_tarea(void);
+void tarea_alimentacion(void * pvParameters);

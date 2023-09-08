@@ -58,43 +58,47 @@ void apagar_led(int io_num){
 
 /**
 * Proceso de monitorizacion de la alimentacion.
-* @return 0.
 */
-int alimentacion_tarea(void){
-  uint32_t tension;
+void tarea_alimentacion(void * pvParameters){
+  alimentacion_init();
 
-  tension = get_tension_bateria_mV();
+  while(1){
+    uint32_t tension;
 
-  if(tension < NIVEL_BATERIA_CRITICA){
-    pwr_estado = BATERIA_CRITICA;
-  } else if(tension < NIVEL_BATERIA_BAJA){
-    pwr_estado = BATERIA_BAJA;
-  } else {
-    pwr_estado = BATERIA_OK;
-  }
+    tension = get_tension_bateria_mV();
 
-  switch(pwr_estado){
-    case BATERIA_CRITICA:
-      apagar_led(LED_BAT_BAJA_IO_NUM);
-    break;
-    case BATERIA_BAJA:
-      prender_led(LED_BAT_BAJA_IO_NUM);
-    break;
-    case BATERIA_OK:
-      apagar_led(LED_BAT_BAJA_IO_NUM);
-    break;
-    case BATERIA_CARGANDO:
-    break;
-    case BATERIA_CARGADA:
-    break;
-    default:
-    break;
-  }
+    if(tension < NIVEL_BATERIA_CRITICA){
+      pwr_estado = BATERIA_CRITICA;
+    } else if(tension < NIVEL_BATERIA_BAJA){
+      pwr_estado = BATERIA_BAJA;
+    } else {
+      pwr_estado = BATERIA_OK;
+    }
+
+    switch(pwr_estado){
+      case BATERIA_CRITICA:
+        apagar_led(LED_BAT_BAJA_IO_NUM);
+      break;
+      case BATERIA_BAJA:
+        prender_led(LED_BAT_BAJA_IO_NUM);
+      break;
+      case BATERIA_OK:
+        apagar_led(LED_BAT_BAJA_IO_NUM);
+      break;
+      case BATERIA_CARGANDO:
+      break;
+      case BATERIA_CARGADA:
+      break;
+      default:
+      break;
+    }
 
 #ifdef DEBUGGING
-  Serial.printf("ADC millivolts value = %d\n", tension);
-  Serial.printf("Estado bateria: %d\n", (int)pwr_estado);
+    Serial.printf("ADC millivolts value = %d\n", tension);
+    Serial.printf("Estado bateria: %d\n", (int)pwr_estado);
 #endif
-  return 0;
+
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
 }
 
