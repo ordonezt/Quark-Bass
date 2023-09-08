@@ -35,7 +35,7 @@ int alimentacion_init(void){
 * @return Tension de la bateria en milivolts
 */
 uint32_t get_tension_bateria_mV(void){
-  return analogReadMilliVolts(BATT_ANALOG_IO_NUM);
+  return CTE_DIVISOR_BATERIA * analogReadMilliVolts(BATT_ANALOG_IO_NUM);
 }
 
 /**
