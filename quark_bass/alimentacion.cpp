@@ -10,8 +10,7 @@ pwr_estado_t pwr_estado;
 */
 int alimentacion_init(void){
 
-#ifdef DEBUGGINGbrousse
-
+#ifdef DEBUGGING
     Serial.begin(115200);
 #endif
     //Entrada analogica
