@@ -8,11 +8,11 @@ pwr_estado_t pwr_estado;
 * Inicializa las cosas necesarias para la monitorizacion de la alimentacion.
 * @return Nada
 */
-int alimentacion_init(void){
+void alimentacion_init(void){
 
-#ifdef DEBUGGING
-    Serial.begin(115200);
-#endif
+// #ifdef DEBUGGING
+//     Serial.begin(115200);
+// #endif
     //Entrada analogica
     //set the resolution to 12 bits (0-4096)
     analogReadResolution(12);
@@ -27,7 +27,6 @@ int alimentacion_init(void){
     pinMode(LED_BAT_BAJA_IO_NUM, OUTPUT);
     //Led bateria cargando
     //Led bateria cargada
-    return 0;
 }
 
 /**
@@ -98,7 +97,7 @@ void tarea_alimentacion(void * pvParameters){
     Serial.printf("Estado bateria: %d\n", (int)pwr_estado);
 #endif
 
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    vTaskDelay(100 / portTICK_PERIOD_MS);
   }
 }
 
