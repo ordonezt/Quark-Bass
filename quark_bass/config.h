@@ -13,6 +13,7 @@
 */
 
 #define DEBUGGING
+#define DEBUGGIN_IO
 
 //Bluetooth
 #define NOMBRE_DISPOSITIVO "Quark Bass"
@@ -33,3 +34,9 @@
 #define BTN_PAIRING_IO_NUM  0
 #define SW_PWR_IO_NUM       35
 #define TIEMPO_DEBOUNCE_MS  50
+
+//Eventos
+#define EVENTO_SW           0b1
+#define EVENTO_BTN          0b10
+#define EVENTO_PWR          0b100
+#define EVENTO_ALL          (EVENTO_SW | EVENTO_BTN | EVENTO_PWR)

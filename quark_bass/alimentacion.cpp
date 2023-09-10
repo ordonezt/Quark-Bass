@@ -92,12 +92,12 @@ void tarea_alimentacion(void * pvParameters){
       break;
     }
 
-#ifdef DEBUGGING
+#ifdef DEBUGGING_PWR
     Serial.printf("ADC millivolts value = %d\n", tension);
     Serial.printf("Estado bateria: %d\n", (int)pwr_estado);
 #endif
 
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+    delay(100);
   }
 }
 
