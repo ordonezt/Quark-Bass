@@ -13,7 +13,10 @@
 */
 
 #define DEBUGGING
-#define DEBUGGIN_IO
+//#define DEBUGGIN_IO
+#define DEBUGGING_PWR
+
+#define UNUSED(x) (void)(sizeof((x), 0))
 
 //Bluetooth
 #define NOMBRE_DISPOSITIVO "Quark Bass"
@@ -26,9 +29,11 @@
 //Alimentacion
 #define BATT_ANALOG_IO_NUM  4
 #define LED_BAT_BAJA_IO_NUM 2
-#define NIVEL_BATERIA_CRITICA 3600//mV
-#define NIVEL_BATERIA_BAJA 3800//mV
+#define NIVEL_BATERIA_CRITICA 2850//mV
+#define NIVEL_BATERIA_BAJA    3800//mV
 #define CTE_DIVISOR_BATERIA 1.4//V/V
+#define CARGANDO_IO_NUM     0
+#define BAT_HISTERESIS      50//mV
 
 //IO
 #define BTN_PAIRING_IO_NUM  0
