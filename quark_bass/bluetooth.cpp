@@ -1,8 +1,10 @@
+#include "Arduino.h"
 #include "BluetoothA2DPSink.h"
 #include "config.h"
 
 //Instancia de la clase 'BluetoothA2DPSink' de la libreria 'ESP32-A2DP'. 
 BluetoothA2DPSink a2dp_sink = BluetoothA2DPSink();
+bool estado;
 
 i2s_config_t i2s_config = {
         .mode = (i2s_mode_t) (I2S_MODE_MASTER | I2S_MODE_TX),
@@ -30,6 +32,7 @@ void arrancar_a2dp() {
     a2dp_sink.set_pin_config(i2s_pin_config);
     a2dp_sink.set_i2s_config(i2s_config);
     a2dp_sink.start(NOMBRE_DISPOSITIVO, true);
+    estado = true;
 }
 
 /**
@@ -37,4 +40,13 @@ void arrancar_a2dp() {
 */
 void detener_a2dp(void){
   a2dp_sink.end(false);
+  estado = false;
+}
+
+/**
+* Retorna el estado del A2DP
+* @return true esta encendido, false esta apagado.
+*/
+bool a2dp_get_estado(void){
+  return estado;
 }
