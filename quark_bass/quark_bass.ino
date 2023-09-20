@@ -12,7 +12,6 @@ void setup() {
 #endif
 
   xEventGroup = xEventGroupCreate();
-  
   if(xEventGroup == NULL){
     while(1);
   }
@@ -25,21 +24,11 @@ void setup() {
     ,  0  // Priority
     ,  NULL // Task handle is not used here - simply pass NULL
     );
-
-  xTaskCreate(
-    tarea_io
-    ,  "Tarea io" // A name just for humans
-    ,  2048        // The stack size can be checked by calling `uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);`
-    ,  NULL // Task parameter which can modify the task behavior. This must be passed as pointer to void.
-    ,  0  // Priority
-    ,  NULL // Task handle is not used here - simply pass NULL
-    );
-
-    //arrancar_a2dp();
 }
 
 void loop() {
   EventBits_t uxBits;
+  pwr_estado_t alimentacion;
 
   uxBits = xEventGroupWaitBits(
             xEventGroup,   /* The event group being tested. */
@@ -49,20 +38,25 @@ void loop() {
             portMAX_DELAY );/* Esperar para siempre. */
 
   Serial.printf("Evento: 0x%X\n", (int)uxBits);
-  if(uxBits & EVENTO_SW){
-    if(sw_pwr_get_estado()){
-      Serial.println("Arrancando BT");
-      arrancar_a2dp();
-    }else{
-      Serial.println("Apagando BT");
-      detener_a2dp();
+  if(uxBits & EVENTO_PWR){
+    alimentacion = alimentacion_get_state();
+    switch(alimentacion){
+      case BATERIA_CRITICA:
+        if(a2dp_get_estado()){
+          Serial.println("Apagando BT");
+          detener_a2dp();
+        }
+        bajo_consumo();
+      break;
+      case BATERIA_NA:
+      //Esperamos a que haya un estado de alimentacion definido
+      break;
+      default:
+        if(!a2dp_get_estado()){
+          Serial.println("Arrancando BT");
+          arrancar_a2dp();
+        }
+      break;
     }
   }
-}
-
-void modo_apagado(void){
-  //ToDo: Hacer cosas de apagado
-  //Entrar a bajo consumo
-  esp_sleep_enable_ext0_wakeup((gpio_num_t)SW_PWR_IO_NUM, LOW);
-  esp_deep_sleep_start();
 }
