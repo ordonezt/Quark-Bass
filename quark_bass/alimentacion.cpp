@@ -27,6 +27,8 @@ void alimentacion_init(void){
     pinMode(LED_BAT_BAJA_IO_NUM, OUTPUT); //Led bateria baja
     //Led bateria cargando
     //Led bateria cargada
+
+    delay(200);
 }
 
 /**
@@ -140,7 +142,7 @@ void tarea_alimentacion(void * pvParameters){
     Serial.printf("Estado bateria: %d\n", (int)pwr_estado);
 #endif
 
-    delay(100);
+    delay(50);
   }
 }
 
