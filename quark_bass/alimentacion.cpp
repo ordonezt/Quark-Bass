@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "config.h"
 #include "alimentacion.h"
+#include "driver/rtc_io.h"
 
 extern EventGroupHandle_t xEventGroup;
 pwr_estado_t pwr_estado;
@@ -20,7 +21,8 @@ void alimentacion_init(void){
 
     //Entradas digitales
     //Cargador conectado
-    pinMode(CARGANDO_IO_NUM, INPUT); //Bateria cargando
+    rtc_gpio_deinit(GPIO_NUM_15);
+    pinMode(CARGANDO_IO_NUM, INPUT_PULLUP); //Bateria cargando
     //Bateria cargada
 
     //Salidas digitales
@@ -163,5 +165,7 @@ pwr_estado_t alimentacion_get_state(void){
 * Pone en bajo consumo al ESP
 */
 void bajo_consumo(void){
+  rtc_gpio_pullup_en(GPIO_NUM_15);
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_15, LOW);
   esp_deep_sleep_start();
 }

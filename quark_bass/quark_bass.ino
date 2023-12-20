@@ -24,6 +24,8 @@ void setup() {
     ,  0  // Priority
     ,  NULL // Task handle is not used here - simply pass NULL
     );
+
+  arrancar_a2dp();
 }
 
 void loop() {
@@ -38,25 +40,4 @@ void loop() {
             portMAX_DELAY );/* Esperar para siempre. */
 
   Serial.printf("Evento: 0x%X\n", (int)uxBits);
-  if(uxBits & EVENTO_PWR){
-    alimentacion = alimentacion_get_state();
-    switch(alimentacion){
-      case BATERIA_CRITICA:
-        if(a2dp_get_estado()){
-          Serial.println("Apagando BT");
-          detener_a2dp();
-        }
-        bajo_consumo();
-      break;
-      case BATERIA_NA:
-      //Esperamos a que haya un estado de alimentacion definido
-      break;
-      default:
-        if(!a2dp_get_estado()){
-          Serial.println("Arrancando BT");
-          arrancar_a2dp();
-        }
-      break;
-    }
-  }
 }
