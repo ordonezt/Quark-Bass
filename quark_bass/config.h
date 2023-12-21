@@ -19,7 +19,7 @@
 #define UNUSED(x) (void)(sizeof((x), 0))
 
 //Bluetooth
-#define NOMBRE_DISPOSITIVO "Quark Bass"
+#define NOMBRE_DISPOSITIVO "Quarks Bass"
 
 //DAC
 #define BCK_IO_NUM      26
